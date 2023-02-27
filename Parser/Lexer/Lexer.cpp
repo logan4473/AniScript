@@ -2,14 +2,6 @@
 #include<iostream>
 #include"DFA/IdentifyToken.h"
 
-enum Token {
-  tok_eof = -1,
-  tok_identifier = -2,
-  tok_number = -3,
-  tok_exit = -4
-};
-
-
 
 static int getToken() {
   static int lastChar = ' ';
