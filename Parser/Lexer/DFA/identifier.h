@@ -8,9 +8,11 @@ bool identifier(int& lastChar,std::string& tokenString) {
   
   while(isalnum(lastChar = getchar())) tokenString += lastChar;
 
-  std::cout<<"Token identified : "<<tokenString<<std::endl;
+  int keywordCheck = keyword(tokenString);
 
-  if(tokenString=="exit") return false;
+  if(keywordCheck != 0) return false;
+
+  std::cout<<"Token identified : "<<tokenString<<std::endl;
 
   return true;
 
