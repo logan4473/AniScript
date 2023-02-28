@@ -9,7 +9,12 @@ static int getToken() {
 
   while(isspace(lastChar)) lastChar = getchar();
 
-  if(identifier(lastChar,tokenString)) return tok_identifier;
+  while(!isspace(lastChar) && lastChar != '\n') {
+    tokenString += lastChar;
+    lastChar = getchar();
+  }
+
+  if(identifier(tokenString)) return tok_identifier;
 
   if(tokenString == "exit") return tok_exit;
 
