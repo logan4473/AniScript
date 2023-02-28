@@ -1,12 +1,15 @@
 #ifndef IDENTIFIER_H
 #define IDENTIFIER_H
 
-bool identifier(int& lastChar,std::string& tokenString) {
-  if(!isalnum(lastChar)) return false;
+bool identifier(std::string& tokenString) {
 
-  tokenString += lastChar;
+  auto it = tokenString.begin();
+
+  if(isdigit(*it)) return false;
+
+  ++it;
   
-  while(isalnum(lastChar = getchar())) tokenString += lastChar;
+  while(isalnum(*it)) it++;
 
   int keywordCheck = keyword(tokenString);
 
