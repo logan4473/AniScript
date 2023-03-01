@@ -3,7 +3,7 @@
 
 bool identifier(std::string& tokenString) {
 
-  auto it = tokenString.begin();
+  std::string::iterator it = tokenString.begin();
 
   if(isdigit(*it)) return false;
 
@@ -11,11 +11,7 @@ bool identifier(std::string& tokenString) {
   
   while(isalnum(*it)) it++;
 
-  int keywordCheck = keyword(tokenString);
-
-  if(keywordCheck != 0) return false;
-
-  return true;
+  return (it==tokenString.end());
 
 }
 
