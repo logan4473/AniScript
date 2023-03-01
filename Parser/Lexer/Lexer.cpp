@@ -14,6 +14,12 @@ static int getToken() {
     lastChar = getchar();
   }
 
+  int keywordCheck = keyword(tokenString);
+
+  if(keywordCheck!=0) {
+    std::cout<<"Keyword : "<<tokenString<<std::endl;
+    return keywordCheck;
+  }
 
   if(identifier(tokenString)) {
     std::cout<<"Id : "<<tokenString<<std::endl;
