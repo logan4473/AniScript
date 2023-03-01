@@ -15,8 +15,6 @@ bool identifier(std::string& tokenString) {
 
   if(keywordCheck != 0) return false;
 
-  std::cout<<"Token identified : "<<tokenString<<std::endl;
-
   return true;
 
 }
