@@ -14,7 +14,16 @@ static int getToken() {
     lastChar = getchar();
   }
 
-  if(identifier(tokenString)) return tok_identifier;
+
+  if(identifier(tokenString)) {
+    std::cout<<"Id : "<<tokenString<<std::endl;
+    return tok_identifier;
+  }
+
+  if(numbers(tokenString)) { 
+    std::cout<<"Number : "<<tokenString<<std::endl;
+    return tok_number;
+  }
 
   if(tokenString == "exit") return tok_exit;
 
