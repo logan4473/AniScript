@@ -31,7 +31,11 @@ static int getToken() {
     return tok_number;
   }
 
-  if(tokenString == "exit") return tok_exit;
+  if(literal(tokenString)) {
+    std::cout<<"Literal : "<<tokenString<<std::endl;
+    return tok_literal;
+  }
+
 
   if (lastChar == EOF)
   return tok_eof;
