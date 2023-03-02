@@ -5,7 +5,7 @@ bool identifier(std::string& tokenString) {
 
   std::string::iterator it = tokenString.begin();
 
-  if(isdigit(*it)) return false;
+  if(!isalpha(*it)) return false;
 
   ++it;
   
