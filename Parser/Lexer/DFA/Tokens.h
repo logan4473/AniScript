@@ -2,11 +2,19 @@
 #define TOKENS_H
 
 enum Tokens {
-  tok_eof = -1,
-  tok_identifier = -2,
-  tok_number = -3,
-  tok_exit = -4,
-  tok_literal = -5
+
+  //commands
+  tok_eof = 1,
+
+  //data
+  tok_identifier,
+  tok_number,
+  tok_literal,
+
+  //keywords
+  tok_exit,
+  tok_if,
+  tok_else
 };
 
 #endif
