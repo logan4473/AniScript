@@ -11,6 +11,14 @@ bool numbers(std::string& tokenString) {
 
     while(it!=tokenString.end() && isdigit(*it)) it++;
 
+    if(it==tokenString.end()) return true;
+
+    if(*it=='.') it++;
+
+    if(it==tokenString.end()) return false;
+
+    while(it!=tokenString.end() && isdigit(*it)) it++;
+
     return (it==tokenString.end());
 }
 
