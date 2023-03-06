@@ -1,6 +1,9 @@
 #include<string>
 #include<memory>
 #include<map>
+#include<iostream>
+#include<utility>
+#include"Lexer/Lexer.h"
 
 class ExprAST {
 public:
@@ -31,6 +34,14 @@ public:
     : Op(Op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
 };
 
+int getNextToken() {
+  std::pair<int,std::string> curTokenPair = getToken();
+  int curToken = curTokenPair.first;
+  std::string curTokenString = curTokenPair.second;
+  std::cout<<curToken<<" "<<curTokenString<<std::endl;
+  return curToken;
+}
+
 static std::map<char, int> BinopPrecedence;
 
 int main() {
@@ -40,4 +51,6 @@ int main() {
   BinopPrecedence['-'] = 20;
   BinopPrecedence['*'] = 40;
   BinopPrecedence['^'] = 50;
+  while(getNextToken()!=tok_exit);
+  return 0;
 }
