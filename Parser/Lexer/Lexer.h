@@ -1,9 +1,6 @@
-#include<string>
-#include<iostream>
 #include"DFA/IdentifyToken.h"
 
-
-static int getToken() {
+std::pair<int,std::string> getToken() {
   static int lastChar = ' ';
   std::string tokenString;
 
@@ -18,35 +15,30 @@ static int getToken() {
 
   if(keywordCheck!=0) {
     std::cout<<"Keyword : "<<tokenString<<std::endl;
-    return keywordCheck;
+    return {keywordCheck,tokenString};
   }
 
   if(identifier(tokenString)) {
     std::cout<<"Id : "<<tokenString<<std::endl;
-    return tok_identifier;
+    return {tok_identifier,tokenString};
   }
 
   if(numbers(tokenString)) { 
     std::cout<<"Number : "<<tokenString<<std::endl;
-    return tok_number;
+    return {tok_number,tokenString};
   }
 
   if(literal(tokenString)) {
     std::cout<<"Literal : "<<tokenString<<std::endl;
-    return tok_literal;
+    return {tok_literal,tokenString};
   }
 
 
   if (lastChar == EOF)
-  return tok_eof;
+  return {tok_eof,tokenString};
 
   int ThisChar = lastChar;
   lastChar = getchar();
-  return ThisChar;
+  return {ThisChar,tokenString};
 
-}
-
-int main() {
-  while(getToken()!=tok_exit);
-  return 0;
 }
