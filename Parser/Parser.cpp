@@ -34,15 +34,21 @@ public:
     : Op(Op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
 };
 
-int getNextToken() {
+std::pair<int,std::string> getNextToken() {
   std::pair<int,std::string> curTokenPair = getToken();
   int curToken = curTokenPair.first;
   std::string curTokenString = curTokenPair.second;
   std::cout<<curToken<<" "<<curTokenString<<std::endl;
-  return curToken;
+  return curTokenPair;
 }
 
-static std::map<char, int> BinopPrecedence;
+std::map<char, int> BinopPrecedence;
+
+std::unique_ptr<ExprAST> ParseNumberExpr(std::string curTokenString) {
+  auto Result = std::make_unique<NumberExprAST>(curTokenString);
+  getNextToken();
+  return std::move(Result);
+}
 
 int main() {
   BinopPrecedence['<'] = 10;
@@ -51,6 +57,6 @@ int main() {
   BinopPrecedence['-'] = 20;
   BinopPrecedence['*'] = 40;
   BinopPrecedence['^'] = 50;
-  while(getNextToken()!=tok_exit);
+  while(getNextToken().first!=tok_exit);
   return 0;
 }
