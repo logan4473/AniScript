@@ -46,7 +46,7 @@ std::map<char, int> BinopPrecedence;
 
 std::unique_ptr<ExprAST> ParseNumberExpr(std::string curTokenString) {
   auto Result = std::make_unique<NumberExprAST>(curTokenString);
-  getNextToken();
+  std::cout<<"Parsed Number "<<curTokenString<<std::endl;
   return std::move(Result);
 }
 
@@ -57,6 +57,16 @@ int main() {
   BinopPrecedence['-'] = 20;
   BinopPrecedence['*'] = 40;
   BinopPrecedence['^'] = 50;
-  while(getNextToken().first!=tok_exit);
+
+  std::pair<int,std::string> curTokenPair = getToken();
+  int curToken = curTokenPair.first;
+  std::string curTokenString = curTokenPair.second;
+
+  while(curToken!=tok_exit) {
+    if(curToken==tok_number) ParseNumberExpr(curTokenString);
+    curTokenPair = getToken();
+    curToken = curTokenPair.first;
+    curTokenString = curTokenPair.second;
+  };
   return 0;
 }
