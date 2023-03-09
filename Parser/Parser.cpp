@@ -19,9 +19,9 @@ public:
 
 class VariableExprAST : public ExprAST {
   std::string Name;
-
+  std::string Value;
 public:
-  VariableExprAST(const std::string &Name) : Name(Name) {}
+  VariableExprAST(const std::string &Name,const std::string &Value){ this->Name = Name; this->Value = Value; }
 };
 
 class BinaryExprAST : public ExprAST {
@@ -50,6 +50,24 @@ std::unique_ptr<ExprAST> ParseNumberExpr(std::string curTokenString) {
   return std::move(Result);
 }
 
+std::unique_ptr<ExprAST> ParseIdentifierExpr(std::string curTokenString) {
+  std::string IdName = curTokenString;
+
+  std::pair<int,std::string> curTokenPair = getToken();
+  int curToken = curTokenPair.first;
+  curTokenString = curTokenPair.second;
+
+  if(curTokenString != "="); //Error Handler
+
+  curTokenPair = getToken();
+  curToken = curTokenPair.first;
+  curTokenString = curTokenPair.second;
+
+  std::string IdValue = curTokenString;
+
+  return std::make_unique<VariableExprAST>(IdName,IdValue);
+}
+
 int main() {
   BinopPrecedence['<'] = 10;
   BinopPrecedence['>'] = 10;
@@ -63,7 +81,11 @@ int main() {
   std::string curTokenString = curTokenPair.second;
 
   while(curToken!=tok_exit) {
+    
     if(curToken==tok_number) ParseNumberExpr(curTokenString);
+
+    if(curToken==tok_identifier) ParseIdentifierExpr(curTokenString);
+
     curTokenPair = getToken();
     curToken = curTokenPair.first;
     curTokenString = curTokenPair.second;
