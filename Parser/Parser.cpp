@@ -68,6 +68,30 @@ std::unique_ptr<ExprAST> ParseIdentifierExpr(std::string curTokenString) {
   return std::make_unique<VariableExprAST>(IdName,IdValue);
 }
 
+static std::unique_ptr<ExprAST> ParsePrimary(std::pair<int,std::string> curTokenPair) {
+  
+  int curToken = curTokenPair.first;
+  std::string curTokenString = curTokenPair.second;
+
+  switch (curToken) {
+  default:
+    //Error Handler
+    break;
+  case tok_identifier:
+    return ParseIdentifierExpr(curTokenString);
+  case tok_number:
+    return ParseNumberExpr(curTokenString);
+  }
+}
+
+static std::unique_ptr<ExprAST> ParseExpression(std::pair<int,std::string> curTokenPair) {
+  auto LHS = ParsePrimary(curTokenPair);
+  if (!LHS)
+    return nullptr;
+
+  // return ParseBinOpRHS(0, std::move(LHS));
+}
+
 int main() {
   BinopPrecedence['<'] = 10;
   BinopPrecedence['>'] = 10;
