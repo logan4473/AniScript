@@ -84,12 +84,39 @@ static std::unique_ptr<ExprAST> ParsePrimary(std::pair<int,std::string> curToken
   }
 }
 
+static std::unique_ptr<ExprAST> ParseBinOpRHS(int curToken,int ExprPrec, std::unique_ptr<ExprAST> LHS) {
+  while (true) {
+    int TokPrec = BinopPrecedence[curToken];
+
+    if (TokPrec < ExprPrec)
+      return LHS;
+
+    int BinOp = curToken;
+    std::pair<int,std::string> curTokenPair = getToken();
+    curToken = curTokenPair.second[0];
+    std::string curTokenString = curTokenPair.second;
+
+    auto RHS = ParsePrimary(curTokenPair);
+    if (!RHS)
+      return nullptr;
+    
+    int NextPrec = BinopPrecedence[curToken];
+    if (TokPrec < NextPrec) {
+      RHS = ParseBinOpRHS(curToken,TokPrec + 1, std::move(RHS));
+      if (!RHS)
+        return nullptr;
+    }
+
+    LHS = std::make_unique<BinaryExprAST>(BinOp, std::move(LHS), std::move(RHS));
+  }
+}
+
 static std::unique_ptr<ExprAST> ParseExpression(std::pair<int,std::string> curTokenPair) {
   auto LHS = ParsePrimary(curTokenPair);
   if (!LHS)
     return nullptr;
 
-  // return ParseBinOpRHS(0, std::move(LHS));
+  return ParseBinOpRHS(curTokenPair.second[0],0, std::move(LHS));
 }
 
 int main() {
