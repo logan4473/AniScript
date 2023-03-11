@@ -65,6 +65,8 @@ std::unique_ptr<ExprAST> ParseIdentifierExpr(std::string curTokenString) {
 
   std::string IdValue = curTokenString;
 
+  std::cout<<"Variable :"<<IdName<<", Value :"<<IdValue<<std::endl;
+
   return std::make_unique<VariableExprAST>(IdName,IdValue);
 }
 
