@@ -121,6 +121,18 @@ static std::unique_ptr<ExprAST> ParseExpression(std::pair<int,std::string> curTo
   return ParseBinOpRHS(curTokenPair.second[0],0, std::move(LHS));
 }
 
+static std::unique_ptr<ExprAST> ParseParenExpr() {
+  std::pair<int,std::string> curTokenPair = getToken();
+  auto V = ParseExpression(curTokenPair);
+  if (!V)
+    return nullptr;
+  curTokenPair = getToken();
+  int curToken = curTokenPair.first;
+  std::string curTokenString = curTokenPair.second;
+  if (curTokenString != ")"); //Error handler
+  return V;
+}
+
 int main() {
   BinopPrecedence['<'] = 10;
   BinopPrecedence['>'] = 10;
@@ -138,6 +150,8 @@ int main() {
     if(curToken==tok_number) ParseNumberExpr(curTokenString);
 
     if(curToken==tok_identifier) ParseIdentifierExpr(curTokenString);
+
+    if(curTokenString=="(") ParseParenExpr();
 
     curTokenPair = getToken();
     curToken = curTokenPair.first;
