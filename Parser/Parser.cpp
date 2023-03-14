@@ -8,10 +8,12 @@
 class ExprAST {
 public:
   virtual ~ExprAST() = default;
+  virtual Value *codegen() = 0;
 };
 
 class NumberExprAST : public ExprAST {
   std::string Val;
+   Value *codegen() override;
 
 public:
   NumberExprAST(std::string Val) : Val(Val) {}
@@ -19,9 +21,9 @@ public:
 
 class VariableExprAST : public ExprAST {
   std::string Name;
-  std::string Value;
+  std::string Val;
 public:
-  VariableExprAST(const std::string &Name,const std::string &Value){ this->Name = Name; this->Value = Value; }
+  VariableExprAST(const std::string &Name,const std::string &Value){ this->Name = Name; this->Val = Val; }
 };
 
 class BinaryExprAST : public ExprAST {
