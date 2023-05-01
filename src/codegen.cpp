@@ -223,15 +223,10 @@ llvm::Value *Block::generateCode(LLVMCodeGenContext &context) {
     return last;
 }
 
-llvm::Value *Double::generateCode(LLVMCodeGenContext & /*context*/) {
-    std::cout << "Creating double " << value << std::endl;
+llvm::Value *Number::generateCode(LLVMCodeGenContext & /*context*/) {
+    std::cout << "Creating Number " << value << std::endl;
     return llvm::ConstantFP::get(
         llvm::Type::getDoubleTy(internal::GetGlobalContext()), value);
 }
 
-llvm::Value *Integer::generateCode(LLVMCodeGenContext & /*context*/) {
-    std::cout << "Creating integer " << value << std::endl;
-    return llvm::ConstantInt::get(
-        llvm::Type::getInt64Ty(internal::GetGlobalContext()), value, true);
-}
 }
